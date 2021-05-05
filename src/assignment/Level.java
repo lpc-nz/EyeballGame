@@ -2,20 +2,22 @@ package assignment;
 
 public class Level implements ILevelHolder{
 
-    protected int levelNumber;
-    protected int levelWidth;
-    protected int levelHeight;
+    private int levelNumber;
+    private int levelWidth;
+    private int levelHeight;
+
+    private int[][] allMyLevels;
+
 
     public Level( int levelHeight, int levelWidth) {
 //		this.levelName = levelName;
-
         this.levelHeight = levelHeight;
         this.levelWidth = levelWidth;
     }
 
     @Override
     public void addLevel(int height, int width) {
-
+        allMyLevels = new int[width][height];
     }
 
     public int getLevelWidth() {
@@ -33,7 +35,7 @@ public class Level implements ILevelHolder{
 
     @Override
     public int getLevelCount() {
-        return 0;
+        return allMyLevels.length;
     }
 
 

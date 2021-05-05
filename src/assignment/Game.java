@@ -7,16 +7,17 @@ public class Game  {
     private int levelHeight;
     private int goalRow;
     private int goalCol;
-    private int colorAtX;
-    private int colorAtY;
+    private int blankSquareX;
+    private int blankSquareY;
+    private int squareX;
+    private int squareY;
 
-
-    private ArrayList<Level> allMyLevels = new ArrayList<Level>();
-    private ArrayList<GoalLocation> allMyGoals = new ArrayList<GoalLocation>();
-    private ArrayList<Square> allMySquares = new ArrayList<Square>();
+    private ArrayList<ILevelHolder> allMyLevels = new ArrayList<>();
+    private ArrayList<IGoalHolder> allMyGoals = new ArrayList<>();
+    private ArrayList<ISquareHolder> allMySquares = new ArrayList<>();
 
     public void addLevel( int newLevelHeight, int newLevelWidth) {
-        Level newLevel = new Level(newLevelHeight , newLevelWidth);
+        ILevelHolder newLevel = new Level(newLevelHeight , newLevelWidth);
         allMyLevels.add(newLevel);
         this.levelWidth = newLevelWidth;
         this.levelHeight = newLevelHeight;
@@ -31,21 +32,40 @@ public class Game  {
 
     }
 
-    public void addSquare(ISquareHolder newSquare, int x, int y){
-        try {
-            throw new IllegalArgumentException("Square can not blank");
-        } catch (Exception e) {
-            throw new IllegalArgumentException("");
+    public void addSquare(PlayableSquare playableSquare, int x, int y){
+        //TODO
+        if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
+            throw new IllegalArgumentException();
         }
+
+
+
+
+    }
+
+    public void addSquare(BlankSquare blankSquare, int x, int y){
+            if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
+                throw new IllegalArgumentException();
+            }
+            BlankSquare newSquare = new BlankSquare();
+            newSquare.setNewColor(Color.BLANK);
+            newSquare.setNewShape(Shape.BLANK);
+
+            this.blankSquareX = x;
+            this.blankSquareY = y;
     }
 
     public void addEyeball(int x, int y, Direction up) {
     }
 
     public Color getColorAt(int x, int y) {
-        this.colorAtX = x;
-        this.colorAtY = y;
-        return Color.RED;
+        if (x == this.blankSquareX && y == this.blankSquareY){
+            return Color.BLANK;
+        }else if (x == this.squareX && y == this.squareY){
+            return Color.PURPLE;
+        }
+        return Color.BLANK;
+
     }
 
     public Shape getShapeAt(int i, int i1) {
@@ -77,6 +97,53 @@ public class Game  {
         return goalCol;
     }
 
+    public int getSquareX() {
+        return squareX;
+    }
+
+    public int getSquareY() {
+        return squareY;
+    }
+
+    public int getBlankSquareX() {
+        return blankSquareX;
+    }
+
+    public int getBlankSquareY() {
+        return blankSquareY;
+    }
+
+    public void setBlankSquareX(int blankSquareX) {
+        this.blankSquareX = blankSquareX;
+    }
+
+    public void setBlankSquareY(int blankSquareY) {
+        this.blankSquareY = blankSquareY;
+    }
+
+    public void setLevelWidth(int levelWidth) {
+        this.levelWidth = levelWidth;
+    }
+
+    public void setLevelHeight(int levelHeight) {
+        this.levelHeight = levelHeight;
+    }
+
+    public void setGoalRow(int goalRow) {
+        this.goalRow = goalRow;
+    }
+
+    public void setGoalCol(int goalCol) {
+        this.goalCol = goalCol;
+    }
+
+    public void setSquareX(int squareX) {
+        this.squareX = squareX;
+    }
+
+    public void setSquareY(int squareY) {
+        this.squareY = squareY;
+    }
 
     public int getLevelHeight() {
         return levelHeight;
@@ -85,7 +152,7 @@ public class Game  {
 
     public String toString() {
         String result = "";
-        for (Level level : this.allMyLevels) {
+        for (ILevelHolder level : this.allMyLevels) {
             result += level + "\n";
         }
         return result;

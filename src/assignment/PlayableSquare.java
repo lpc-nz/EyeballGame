@@ -1,27 +1,32 @@
 package assignment;
-//
-//
-//import java.awt.Color;
-//import java.awt.Shape;
 
-public class PlayableSquare extends Square implements ISquareHolder{
+
+public class PlayableSquare extends Square{
 
     private Color color;
     private Shape shape;
 
+
     public PlayableSquare(Color newColor, Shape newShape) {
-        this.color = newColor;
-        this.shape = newShape;
-
+        super(newColor, newShape);
     }
 
-    @Override
-    public void addSquare(Square square, int row, int column) {
 
+    public Color getColor() {
+        return color;
     }
 
-//    @Override
-//    public void addSquare(Square square, int row, int column) {
-//
-//    }
+    public Shape getShape() {
+        return shape;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
+    }
+
+    public void setShape(Shape shape) {
+        this.shape = shape;
+    }
+
+
 }

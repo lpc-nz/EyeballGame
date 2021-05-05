@@ -1,69 +1,34 @@
 package assignment;
 
 
-
-
 public class Square {
 
-    protected Shape squareShape;
-    protected Color squareColor;
-    private PlayableSquare playableSquare;
-//    private ArrayList<Square> square;
+    private Shape newShape;
+    private Color newColor;
 
+    public Square(){}
 
-    public Square(Color newColor, Shape newShape) {
-
-        this.squareShape = newShape;
-        this.squareColor = newColor;
-    }
-
-    public Square(){
-
-    }
-//
-//    public void addSquare(Square square, int row, int column) {
-//
-//    }
-
-
-
-
-    public Color getColorAt(int row, int column) {
-        return null;
+    public Square( Color newColor, Shape newShape) {
+        this.newShape = newShape;
+        this.newColor = newColor;
     }
 
 
-    public Shape getShapeAt(int row, int column) {
-        return null;
+
+    public Shape getNewShape() {
+        return newShape;
     }
 
-
-    public Shape getSymbol() {
-        return squareShape;
+    public Color getNewColor() {
+        return newColor;
     }
 
-    public Color getColor() {
-        return squareColor;
+    public void setNewShape(Shape newShape) {
+        this.newShape = newShape;
     }
 
-//    public int getX() {
-//        return x;
-//    }
-//
-//    public int getY() {
-//        return y;
-//    }
-//
-//
-//    public void setX(int x) {
-//        this.x = x;
-//    }
-//
-//    public void setY(int y) {
-//        this.y = y;
-//    }
-
-
-
+    public void setNewColor(Color newColor) {
+        this.newColor = newColor;
+    }
 }
 
