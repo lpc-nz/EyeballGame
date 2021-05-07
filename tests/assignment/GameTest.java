@@ -169,7 +169,8 @@ class GameTest {
         void testColoursAreAsAdded() {
             setup();
             Color[] expectedColors = {Color.BLUE, Color.RED, Color.YELLOW, Color.GREEN, Color.BLANK, Color.PURPLE};
-            Color[] actualColors = {game.getColorAt(2, 0),
+            Color[] actualColors = {
+                    game.getColorAt(2, 0),
                     game.getColorAt(3, 0),
                     game.getColorAt(4, 0),
                     game.getColorAt(5, 0),
@@ -183,7 +184,8 @@ class GameTest {
         void testShapesAreAsAdded() {
             setup();
             Shape[] expectedShapes = {Shape.DIAMOND, Shape.CROSS, Shape.STAR, Shape.FLOWER, Shape.BLANK, Shape.LIGHTNING};
-            Shape[] actualShapes = {game.getShapeAt(2, 0),
+            Shape[] actualShapes = {
+                    game.getShapeAt(2, 0),
                     game.getShapeAt(3, 0),
                     game.getShapeAt(4, 0),
                     game.getShapeAt(5, 0),

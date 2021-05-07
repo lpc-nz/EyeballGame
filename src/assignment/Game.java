@@ -14,14 +14,14 @@ public class Game  {
 
     private ArrayList<ILevelHolder> allMyLevels = new ArrayList<>();
     private ArrayList<IGoalHolder> allMyGoals = new ArrayList<>();
-    private ArrayList<ISquareHolder> allMySquares = new ArrayList<>();
+    private SquareHolder squareHolder;
 
     public void addLevel( int newLevelHeight, int newLevelWidth) {
         ILevelHolder newLevel = new Level(newLevelHeight , newLevelWidth);
         allMyLevels.add(newLevel);
         this.levelWidth = newLevelWidth;
         this.levelHeight = newLevelHeight;
-
+        squareHolder = new SquareHolder(newLevelHeight, newLevelWidth);
     }
 
     public void addGoal(int targetRow, int targetCol) {
@@ -29,47 +29,52 @@ public class Game  {
         allMyGoals.add(newGoal);
         this.goalRow = targetRow;
         this.goalCol = targetCol;
-
     }
 
-    public void addSquare(PlayableSquare playableSquare, int x, int y){
+    public void addSquare(Square square, int x, int y){
         //TODO
         if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
             throw new IllegalArgumentException();
+        } else {
+            squareHolder.addSquare(square, x, y);
         }
-
+        //asd
 
 
 
     }
 
-    public void addSquare(BlankSquare blankSquare, int x, int y){
-            if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
-                throw new IllegalArgumentException();
-            }
-            BlankSquare newSquare = new BlankSquare();
-            newSquare.setNewColor(Color.BLANK);
-            newSquare.setNewShape(Shape.BLANK);
-
-            this.blankSquareX = x;
-            this.blankSquareY = y;
-    }
+//    public void addSquare(BlankSquare blankSquare, int x, int y){
+//            if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
+//                throw new IllegalArgumentException();
+//            }
+//            BlankSquare newSquare = new BlankSquare();
+//            newSquare.setNewColor(Color.BLANK);
+//            newSquare.setNewShape(Shape.BLANK);
+//
+//            this.blankSquareX = x;
+//            this.blankSquareY = y;
+//    }
 
     public void addEyeball(int x, int y, Direction up) {
     }
 
-    public Color getColorAt(int x, int y) {
-        if (x == this.blankSquareX && y == this.blankSquareY){
-            return Color.BLANK;
-        }else if (x == this.squareX && y == this.squareY){
-            return Color.PURPLE;
-        }
-        return Color.BLANK;
+//    public Color getColorAt(int x, int y) {
+//        if (x == this.blankSquareX && y == this.blankSquareY){
+//            return Color.BLANK;
+//        }else if (x == this.squareX && y == this.squareY){
+//            return Color.PURPLE;
+//        }
+//        return Color.BLANK;
+//
+//    }
 
+    public Color getColorAt(int x, int y) {
+        return squareHolder.getSquare(x, y).getColor();
     }
 
-    public Shape getShapeAt(int i, int i1) {
-        return Shape.BLANK;
+    public Shape getShapeAt(int x, int y) {
+        return squareHolder.getSquare(x, y).getShape();
     }
 
     public void removeGoal() {

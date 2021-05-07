@@ -13,13 +13,11 @@ public class Square {
         this.newColor = newColor;
     }
 
-
-
-    public Shape getNewShape() {
+    public Shape getShape() {
         return newShape;
     }
 
-    public Color getNewColor() {
+    public Color getColor() {
         return newColor;
     }
 
