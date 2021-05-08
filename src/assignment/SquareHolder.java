@@ -23,8 +23,4 @@ public class SquareHolder {
      }
 
 
-
-     //Color getColorAt(int row, int column);
-     //Shape getShapeAt(int row, int column);
-
 }
