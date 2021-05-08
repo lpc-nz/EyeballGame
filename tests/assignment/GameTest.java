@@ -316,7 +316,7 @@ class GameTest {
         void testOKWhenMovingToLEFT() {
             boolean expected = true;
             game.addEyeball(6, 0, Direction.RIGHT);
-            boolean actual = game.isDirectionOK(5,0);;
+            boolean actual = game.isDirectionOK(5,0);
             assertEquals(expected, actual);
         }
 
@@ -324,7 +324,7 @@ class GameTest {
         void testOKWhenMovingToRIGHT() {
             boolean expected = true;
             game.addEyeball(6, 0, Direction.LEFT);
-            boolean actual = game.isDirectionOK(5,0);;
+            boolean actual = game.isDirectionOK(5,0);
             assertEquals(expected, actual);
         }
 
@@ -383,7 +383,6 @@ class GameTest {
 
     }
 
-
-    }
+}
 
 

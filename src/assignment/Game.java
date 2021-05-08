@@ -3,24 +3,20 @@ package assignment;
 import java.util.ArrayList;
 
 public class Game  {
-    private int levelWidth;
-    private int levelHeight;
     private int goalRow;
     private int goalCol;
-    private int blankSquareX;
-    private int blankSquareY;
-    private int squareX;
-    private int squareY;
 
     private ArrayList<ILevelHolder> allMyLevels = new ArrayList<>();
     private ArrayList<IGoalHolder> allMyGoals = new ArrayList<>();
     private SquareHolder squareHolder;
+    private Eyeball eyeball;
+    private Message message;
+    private Direction currentDirection;
+
 
     public void addLevel( int newLevelHeight, int newLevelWidth) {
         ILevelHolder newLevel = new Level(newLevelHeight , newLevelWidth);
         allMyLevels.add(newLevel);
-        this.levelWidth = newLevelWidth;
-        this.levelHeight = newLevelHeight;
         squareHolder = new SquareHolder(newLevelHeight, newLevelWidth);
     }
 
@@ -33,41 +29,22 @@ public class Game  {
 
     public void addSquare(Square square, int x, int y){
         //TODO
-        if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
+        if(x > squareHolder.levelHeight || y > squareHolder.levelWidth || x < 0 || y < 0){
             throw new IllegalArgumentException();
         } else {
             squareHolder.addSquare(square, x, y);
         }
-        //asd
-
-
-
     }
 
-//    public void addSquare(BlankSquare blankSquare, int x, int y){
-//            if(x > this.levelHeight || y > this.levelWidth || x < 0 || y < 0){
-//                throw new IllegalArgumentException();
-//            }
-//            BlankSquare newSquare = new BlankSquare();
-//            newSquare.setNewColor(Color.BLANK);
-//            newSquare.setNewShape(Shape.BLANK);
-//
-//            this.blankSquareX = x;
-//            this.blankSquareY = y;
-//    }
-
-    public void addEyeball(int x, int y, Direction up) {
+    public void addEyeball(int x, int y, Direction dir) {
+        setCurrentDirection(dir);
+        if(x > squareHolder.levelHeight || y > squareHolder.levelWidth || x < 0 || y < 0){
+            throw new IllegalArgumentException();
+        } else {
+            eyeball = new Eyeball(x, y, dir);
+            eyeball.setSquare(squareHolder.getSquare(x, y));
+        }
     }
-
-//    public Color getColorAt(int x, int y) {
-//        if (x == this.blankSquareX && y == this.blankSquareY){
-//            return Color.BLANK;
-//        }else if (x == this.squareX && y == this.squareY){
-//            return Color.PURPLE;
-//        }
-//        return Color.BLANK;
-//
-//    }
 
     public Color getColorAt(int x, int y) {
         return squareHolder.getSquare(x, y).getColor();
@@ -76,6 +53,10 @@ public class Game  {
     public Shape getShapeAt(int x, int y) {
         return squareHolder.getSquare(x, y).getShape();
     }
+
+    public int getLevelWidth() { return squareHolder.levelWidth; }
+
+    public int getLevelHeight() { return squareHolder.levelHeight; }
 
     public void removeGoal() {
         // TODO
@@ -89,11 +70,6 @@ public class Game  {
         return allMyGoals.size();
     }
 
-
-    public int getLevelWidth() {
-        return levelWidth;
-    }
-
     public int getGoalRow() {
         return goalRow;
     }
@@ -101,37 +77,8 @@ public class Game  {
     public int getGoalCol() {
         return goalCol;
     }
-
-    public int getSquareX() {
-        return squareX;
-    }
-
-    public int getSquareY() {
-        return squareY;
-    }
-
-    public int getBlankSquareX() {
-        return blankSquareX;
-    }
-
-    public int getBlankSquareY() {
-        return blankSquareY;
-    }
-
-    public void setBlankSquareX(int blankSquareX) {
-        this.blankSquareX = blankSquareX;
-    }
-
-    public void setBlankSquareY(int blankSquareY) {
-        this.blankSquareY = blankSquareY;
-    }
-
-    public void setLevelWidth(int levelWidth) {
-        this.levelWidth = levelWidth;
-    }
-
-    public void setLevelHeight(int levelHeight) {
-        this.levelHeight = levelHeight;
+    public Direction getCurrentDirection(){
+        return currentDirection;
     }
 
     public void setGoalRow(int goalRow) {
@@ -142,16 +89,8 @@ public class Game  {
         this.goalCol = goalCol;
     }
 
-    public void setSquareX(int squareX) {
-        this.squareX = squareX;
-    }
-
-    public void setSquareY(int squareY) {
-        this.squareY = squareY;
-    }
-
-    public int getLevelHeight() {
-        return levelHeight;
+    public void setCurrentDirection(Direction direction){
+        this.currentDirection = direction;
     }
 
 
@@ -185,49 +124,108 @@ public class Game  {
 
 
     public int getEyeballRow() {
-        return 0;
+        return eyeball.getEyeballRow();
     }
 
     public int getEyeballColumn() {
-        return 0;
+        return eyeball.getEyeballColumn();
     }
 
     public Direction getEyeballDirection() {
-        return Direction.DOWN;
+        return eyeball.getEyeballDirection();
     }
 
     public boolean canMoveTo(int x, int y) {
 //        TODO
+        if(x > squareHolder.levelHeight || y > squareHolder.levelWidth || x < 0 || y < 0){
+            throw new IllegalArgumentException();
+        } else {
+            if (getColorAt(x, y) == eyeball.getSquare().getColor() || getShapeAt(x, y) == eyeball.getSquare().getShape()){
+                message = Message.OK;
+                return true;
+            }
+        }
+        message = Message.DIFFERENT_SHAPE_OR_COLOR;
         return false;
     }
 
-    public Message MessageIfMovingTo(int i, int i1) {
+    public Message MessageIfMovingTo(int x, int y) {
 //        ToDO
-        return Message.OK;
+        canMoveTo(x,y);
+        return message;
+
     }
 
-    public boolean isDirectionOK(int i, int i1) {
-
+    public boolean isDirectionOK(int x, int y) {
         //TODO
-        return false;
+        Direction currDir = eyeball.getEyeballDirection();
+
+        int deltaX = y - eyeball.getEyeballColumn();
+        int deltaY = x - eyeball.getEyeballRow();
+        // relative to North
+        Direction newDir = null;
+
+        if(deltaX == 0 && deltaY < 0){
+            newDir = Direction.UP;
+        } else if(deltaX < 0 && deltaY == 0) {
+            newDir = Direction.LEFT;
+        } else if( deltaX == 0 && deltaY > 0) {
+            message = Message.BACKWARDS_MOVE;
+            newDir = Direction.DOWN;
+        } else if(deltaX > 0 && deltaY == 0) {
+            newDir = Direction.RIGHT;
+        }
+
+        //Calculate to convert to Direction
+        if (newDir == null)
+            return false;
+        else {
+            int value =  newDir.getValue() - currDir.getValue();
+            if(Math.abs(value) == 2){
+                message = Message.BACKWARDS_MOVE;
+                return false;
+            }
+            return true;
+        }
+
     }
 
-    public Message checkDirectionMessage(int i, int i1) {
-        //TODO
-        return Message.OK;
+
+    public Message checkDirectionMessage(int x, int y) {
+        isDirectionOK(x ,y);
+        return message;
     }
 
-    public boolean hasBlankFreePathTo(int i, int i1) {
+    public boolean hasBlankFreePathTo(int x, int y) {
         //TODO
-        return false;
+        int deltaX = y - eyeball.getEyeballColumn();
+        int deltaY = x - eyeball.getEyeballRow();
+
+        if (deltaY == 0) {
+
+        } else if (deltaX == 0) {
+            for (int row=0; row< Math.abs(deltaY); row++) {
+                Square square = squareHolder.getSquare(row, x);
+                if (square instanceof BlankSquare) {
+                    message = Message.MOVING_OVER_BLANK;
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
-    public Message checkMessageForBlankOnPathTo(int i, int i1) {
-        //TODO
-        return Message.OK;
+    public Message checkMessageForBlankOnPathTo(int x, int y) {
+        hasBlankFreePathTo(x ,y);
+        return message;
     }
 
-    public void moveTo(int i, int i1) {
+    public void moveTo(int x, int y) {
         //TODO
+        MessageIfMovingTo(x,y);
+        eyeball.setEyeballRow(x);
+        eyeball.setEyeballCol(y);
+
     }
 }

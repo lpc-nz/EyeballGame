@@ -1,7 +1,7 @@
 package assignment;
 
 
-public class Square {
+public abstract class Square {
 
     private Shape newShape;
     private Color newColor;

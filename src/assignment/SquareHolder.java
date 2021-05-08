@@ -5,8 +5,12 @@ import java.util.ArrayList;
 public class SquareHolder {
 
      Square[][] mySquares;
+     int levelWidth;
+     int levelHeight;
 
      public SquareHolder(int height, int width) {
+          this.levelWidth = width;
+          this.levelHeight = height;
           mySquares = new Square[height][width];
      }
 

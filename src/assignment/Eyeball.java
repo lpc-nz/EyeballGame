@@ -5,6 +5,9 @@ public class Eyeball implements IEyeballHolder{
     private Direction direction;
     private int eyeballRow;
     private int eyeballCol;
+//    private Shape eyeballShape;
+//    private Color eyeballColor;
+    private Square square;
 
     public Eyeball(int eyeballRow, int eyeballCol, Direction direction) {
 
@@ -14,8 +17,16 @@ public class Eyeball implements IEyeballHolder{
 
     }
 
+    public void setSquare(Square currentSquare){
+        square = currentSquare;
+    }
+
+    public Square getSquare(){
+        return square;
+    }
+
     @Override
-    public void addEyeball(int row, int column, Direction direction) {
+    public void addEyeball(int column, int row, Direction direction) {
         this.eyeballRow = row;
         this.eyeballCol = column;
         this.direction = direction;
